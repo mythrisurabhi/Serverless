@@ -1,13 +1,12 @@
 import json
 import boto3
 import os
-# client = boto3.client("dynamodb", region_name="localhost", endpoint_url="http://localhost:8000", aws_access_key_id="89z7l8", aws_secret_access_key="w1uezg")
 
 
 # import requests
 def create_dynamodb_client():
-    return boto3.client("dynamodb",  region_name=os.environ['REGION_NAME'], endpoint_url=os.environ['END_POINT'],
-                        aws_access_key_id=os.environ['ACESS_KEY'], aws_secret_access_key=os.environ['SECRET_KEY'])
+    return boto3.client("dynamodb",region_name=os.environ.get("REGION_NAME"), endpoint_url=os.environ.get("END_POINT"),
+                        aws_access_key_id=os.environ.get("ACESS_KEY"), aws_secret_access_key=os.environ.get("SECRET_KEY"))
 
 
 def create_scan_input():
@@ -55,22 +54,24 @@ def lambda_handler(event, context):
     #     print(e)
 
     #     raise e
-    print(os.environ['REGION_NAME'])
     
-    if event.get('httpMethod') == 'GET':
+    
+    
+    
         # Create the DynamoDB Client with the region you want
-        dynamodb_client = create_dynamodb_client()
+        
+    dynamodb_client = create_dynamodb_client()
     # Create the dictionary containing arguments for get_item call
-        scan_input = create_scan_input()
+    scan_input = create_scan_input()
 
     # Call DynamoDB's get_item API
-        data = execute_scan(dynamodb_client=dynamodb_client,
-                            input=scan_input).get('Items')
-        print(data)
-        return {
-            "statusCode": 200,
-            # "path_param": path_param,
-            # "body": json.dumps({"message": data, },
-            "body": data
+    data = execute_scan(dynamodb_client=dynamodb_client,
+                        input=scan_input).get('Items')
+    print(data)
+    return {
+        "statusCode": 200,
+        # "path_param": path_param,
+        # "body": json.dumps({"message": data, },
+        "body": data
 
-        }
+    }

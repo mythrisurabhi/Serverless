@@ -1,11 +1,13 @@
 import json
 import boto3
-# client = boto3.client("dynamodb", region_name="localhost", endpoint_url="http://localhost:8000", aws_access_key_id="89z7l8", aws_secret_access_key="w1uezg")
+import os
+
 
 
 # import requests
 def create_dynamodb_client():
-    return boto3.client("dynamodb", region_name="localhost", endpoint_url="http://docker.for.mac.localhost:8000/", aws_access_key_id="i0d3go", aws_secret_access_key="7ghp1c")
+    return boto3.client("dynamodb",region_name=os.environ.get("REGION_NAME"), endpoint_url=os.environ.get("END_POINT"),
+                        aws_access_key_id=os.environ.get("ACESS_KEY"), aws_secret_access_key=os.environ.get("SECRET_KEY"))
 
 
 def create_update_item_input():
@@ -24,7 +26,7 @@ def create_update_item_input():
         {
             ":language":
             {
-                "S": "Telugu-Lambda"
+                "S": "French"
             }
         },
         "ReturnValues": "UPDATED_NEW",
@@ -71,14 +73,14 @@ def lambda_handler(event, context):
 
     #     raise e
 
-    if event.get('httpMethod') == 'PUT':
-        dynamodb_client = create_dynamodb_client()
-        update_item_input = create_update_item_input()
+    
+    dynamodb_client = create_dynamodb_client()
+    update_item_input = create_update_item_input()
 
-        data = execute_update_item(dynamodb_client, update_item_input)
+    data = execute_update_item(dynamodb_client, update_item_input)
         # print(data)
 
-        return {
+    return {
             "statusCode": 200,
             "body": json.dumps({"message": data})
         }

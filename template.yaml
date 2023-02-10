@@ -15,10 +15,10 @@ Globals:
         - x86_64
     Environment:
       Variables:
-        REGION_NAME: "localhost"
-        END_POINT: "http://docker.for.mac.localhost:8000/"
-        ACESS_KEY: "i0d3go"
-        SECRET_KEY: "7ghp1c"
+        REGION_NAME: 
+        END_POINT: 
+        ACESS_KEY: 
+        SECRET_KEY: 
 
 Resources:
   DynamoTable:
@@ -47,9 +47,7 @@ Resources:
           Properties:
             Path: /books
             Method: get
-      Environment:
-        Variables:
-          REGION_NAME: localhost
+       
       Policies:
         DynamoDBReadPolicy:
           TableName: !Ref DynamoTable

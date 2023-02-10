@@ -1,19 +1,22 @@
 import json
 import boto3
-# client = boto3.client("dynamodb", region_name="localhost", endpoint_url="http://localhost:8000", aws_access_key_id="89z7l8", aws_secret_access_key="w1uezg")
+import os
+
 
 
 # import requests
 def create_dynamodb_client():
-    return boto3.client("dynamodb", region_name="localhost", endpoint_url="http://docker.for.mac.localhost:8000/", aws_access_key_id="i0d3go", aws_secret_access_key="7ghp1c")
+    return boto3.client("dynamodb",region_name=os.environ.get("REGION_NAME"), endpoint_url=os.environ.get("END_POINT"),
+                        aws_access_key_id=os.environ.get("ACESS_KEY"), aws_secret_access_key=os.environ.get("SECRET_KEY"))
+
 
 
 def create_delete_item_input():
     return {
         "TableName": "BookTable",
         "Key": {
-            "BookID": {"S": "BookID6"},
-            "Author": {"S": "corey wilson"}
+            "BookID": {"S": "BookID5"},
+            "Author": {"S": "John Sonmez"}
         }}
 def execute_delete_item(dynamodb_client, input):
     try:
@@ -51,14 +54,13 @@ def lambda_handler(event, context):
     
     
 
-    if event.get('httpMethod') == 'DELETE':
-        dynamodb_client = create_dynamodb_client()
-        delete_item_input = create_delete_item_input()
-        data = execute_delete_item(
-            dynamodb_client, delete_item_input)  # get('Items')
-        print(data)
-        return {
+    
+    dynamodb_client = create_dynamodb_client()
+    delete_item_input = create_delete_item_input()
+    data = execute_delete_item(dynamodb_client, delete_item_input)  # get('Items')
+    print(data)
+    return {
             "statusCode": 200,
             "body": data,
-            "message": "delete request recieved"
+            
         }
