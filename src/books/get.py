@@ -5,9 +5,12 @@ import os
 
 # import requests
 def create_dynamodb_client():
-    return boto3.client("dynamodb",region_name=os.environ.get("REGION_NAME"), endpoint_url=os.environ.get("END_POINT"),
+    if os.environ.get("REGION_NAME") == 'localhost':
+        client = boto3.client("dynamodb",region_name=os.environ.get("REGION_NAME"), endpoint_url=os.environ.get("END_POINT"),
                         aws_access_key_id=os.environ.get("ACESS_KEY"), aws_secret_access_key=os.environ.get("SECRET_KEY"))
-
+    else:
+        client = boto3.client("dynamodb",region_name=os.environ.get("REGION_NAME"))
+    return client
 
 def create_scan_input():
     return {
@@ -25,7 +28,10 @@ def execute_scan(dynamodb_client, input):
 
 
 def lambda_handler(event, context):
+    
+    
     """Sample pure Lambda function
+    
 
     Parameters
     ----------
@@ -67,7 +73,7 @@ def lambda_handler(event, context):
     # Call DynamoDB's get_item API
     data = execute_scan(dynamodb_client=dynamodb_client,
                         input=scan_input).get('Items')
-    print(data)
+    
     return {
         "statusCode": 200,
         # "path_param": path_param,

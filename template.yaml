@@ -5,21 +5,30 @@ Description:
 
   Sample SAM Template for sam-app-test
 
+
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 50
+    Timeout: 5
     MemorySize: 128
     Runtime: python3.9
     Architectures:
         - x86_64
     Environment:
       Variables:
-        REGION_NAME: 
-        END_POINT: 
-        ACESS_KEY: 
-        SECRET_KEY: 
-
+        REGION_NAME: !Ref RegionName
+        END_POINT: !Ref Endpoint
+        ACESS_KEY: !Ref AccessKey
+        SECRET_KEY: !Ref SecretKey
+Parameters: 
+  EndPoint:
+    Type: String
+  RegionName:
+    Type: String
+  AccessKey:
+    Type: String
+  SecretKey:
+    Type: String
 Resources:
   DynamoTable:
       Type: AWS::DynamoDB::Table
@@ -47,7 +56,6 @@ Resources:
           Properties:
             Path: /books
             Method: get
-       
       Policies:
         DynamoDBReadPolicy:
           TableName: !Ref DynamoTable
