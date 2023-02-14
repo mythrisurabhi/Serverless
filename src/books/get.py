@@ -1,16 +1,8 @@
 import json
 import boto3
 import os
+from . import create_dynamodb_client 
 
-
-# import requests
-def create_dynamodb_client():
-    if os.environ.get("REGION_NAME") == 'localhost':
-        client = boto3.client("dynamodb",region_name=os.environ.get("REGION_NAME"), endpoint_url=os.environ.get("END_POINT"),
-                        aws_access_key_id=os.environ.get("ACESS_KEY"), aws_secret_access_key=os.environ.get("SECRET_KEY"))
-    else:
-        client = boto3.client("dynamodb",region_name=os.environ.get("REGION_NAME"))
-    return client
 
 def create_scan_input():
     return {
@@ -78,6 +70,6 @@ def lambda_handler(event, context):
         "statusCode": 200,
         # "path_param": path_param,
         # "body": json.dumps({"message": data, },
-        "body": data
+        "body": json.dumps(data)
 
     }

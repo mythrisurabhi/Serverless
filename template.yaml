@@ -1,11 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: 
-  sam-app-test
-
-  Sample SAM Template for sam-app-test
-
-
+Description: serverless application
+  
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
@@ -17,7 +13,7 @@ Globals:
     Environment:
       Variables:
         REGION_NAME: !Ref RegionName
-        END_POINT: !Ref Endpoint
+        END_POINT: !Ref EndPoint
         ACESS_KEY: !Ref AccessKey
         SECRET_KEY: !Ref SecretKey
 Parameters: 
@@ -44,6 +40,9 @@ Resources:
           KeyType: HASH
         - AttributeName: Author
           KeyType: RANGE
+        ProvisionedThroughput: 
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
           
   BooksGet:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -103,6 +102,7 @@ Resources:
           TableName: !Ref DynamoTable 
 
 
+
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
@@ -111,9 +111,9 @@ Outputs:
     Description: "API Gateway endpoint URL for Prod stage for Books Get function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/books/"
   BooksGet:
-    Description: "Hello World Lambda Function ARN"
+    Description: "books get Lambda Function ARN"
     Value: !GetAtt BooksGet.Arn
   BooksGetIamRole:
 
-    Description: "Implicit IAM Role created for Hello World function"
+    Description: "Implicit IAM Role created for books get  function"
     Value: !GetAtt BooksGetRole.Arn
