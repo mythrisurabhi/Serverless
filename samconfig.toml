@@ -1,0 +1,25 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "MythriServerless"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-nxh6qfv9z1ya"
+s3_prefix = "MythriServerless"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
+disable_rollback = true
+parameter_overrides = "EndPoint=\"\" RegionName=\"\" AccessKey=\"\" SecretKey=\"\""
+
+[dev]
+[dev.deploy]
+[dev.deploy.parameters]
+stack_name = "MythriServerless"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-nxh6qfv9z1ya"
+s3_prefix = "MythriServerless"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "EndPoint=\"\" RegionName=\"\" AccessKey=\"\" SecretKey=\"\""
+image_repositories = []
